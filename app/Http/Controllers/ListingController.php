@@ -11,7 +11,7 @@ class ListingController extends Controller
     // Listings del usuario autenticado
     public function index()
     {
-        $listings = auth()->user()->listings()->with('categories', 'reviews')->get();
+        $listings = Listing::with('categories', 'reviews')->get();
         return view('listings.index', compact('listings'));
     }
 
