@@ -6,7 +6,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/dashboard', function () {
