@@ -17,9 +17,39 @@
                 <a href="/">Booking Clone</a>
             </h1>
 
-            <nav class="flex items-center space-x-4">
-                <button type="button" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">Divisa</button>
-                <button type="button" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">Idioma</button>
+            <nav x-data="headerDropdowns()" class="flex items-center space-x-4 relative">
+
+                <div class="relative">
+                    <button type="button"
+                        @click="toggleCurrency()"
+                        class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                        <span x-text="selectedCurrency"></span>
+                        <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
+                    </button>
+                    <div x-show="currencyOpen" @click.away="currencyOpen = false"
+                        class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
+                        <template x-for="curr in ['USD', 'MXN', 'EUR']" :key="curr">
+                            <a href="#" @click.prevent="selectCurrency(curr)"
+                            class="block px-4 py-2 hover:bg-gray-100" x-text="curr"></a>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <button type="button"
+                        @click="toggleLanguage()"
+                        class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                        <span x-text="selectedLanguage"></span>
+                        <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
+                    </button>
+                    <div x-show="languageOpen" @click.away="languageOpen = false"
+                        class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
+                        <template x-for="lang in ['EN', 'ES', 'FR']" :key="lang">
+                            <a href="#" @click.prevent="selectLanguage(lang)"
+                            class="block px-4 py-2 hover:bg-gray-100" x-text="lang"></a>
+                        </template>
+                    </div>
+                </div>
 
                 <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
                     <iconify-icon icon="mdi:support" width="20" height="20"></iconify-icon>
