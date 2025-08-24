@@ -5,10 +5,10 @@
 @section('content')
     <div class="border border-[#003580] p-10 rounded-lg shadow-md max-w-md mx-auto mt-10">
         <h1 class=" text-[#003580] text-3xl font-bold mb-4 text-center">Iniciar sesión</h1>
-        <p>Puedes iniciar sesión con tu cuenta de Booking.com para acceder a nuestros servicios</p>
+        <p class="text-lg mb-6 text-center">Puedes iniciar sesión con tu cuenta de Booking Clone para acceder a nuestros servicios</p>
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-6">
+        <form method="POST" action="{{ route('login') }}" class="space-y-6 bg-white text-black p-6 rounded-lg shadow-lg">
             @csrf
 
             <div>
@@ -18,7 +18,7 @@
             </div>
 
             <div>
-                <x-input-label for="password" :value="__('Password')" />
+                <x-input-label for="password" :value="__('Contraseña')" />
                 <x-text-input id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
@@ -29,21 +29,22 @@
             <div class="flex items-center justify-between">
                 <label for="remember_me" class="inline-flex items-center">
                     <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-[#003580] shadow-sm focus:ring-[#003580]" name="remember">
-                    <span class="ms-2 text-sm text-black">{{ __('Remember me') }}</span>
+                    <span class="ms-2 text-sm text-black">{{ __('Recuérdame') }}</span>
                 </label>
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-black hover:text-[#003580] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#003580]" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                        {{ __('Olvidaste tu contraseña?') }}
                     </a>
                 @endif
             </div>
 
             <div>
                 <x-primary-button class="w-full ">
-                    {{ __('Log in') }}
+                    {{ __('Iniciar sesión') }}
                 </x-primary-button>
             </div>
-                        <!-- Divider -->
+
+            <!-- Divider -->
             <div class="flex items-center my-6">
                 <hr class="flex-grow border-gray-300">
                 <span class="px-2 text-gray-500 text-sm">o</span>
