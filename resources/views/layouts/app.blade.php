@@ -52,7 +52,7 @@
                     </div>
 
                     <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                        <iconify-icon icon="mdi:support" width="20" height="20"></iconify-icon>
+                        <iconify-icon icon="mdi:question-mark-circle-outline" width="20" height="20"></iconify-icon>
                     </a>
                     <a href="/#"
                         class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
@@ -124,8 +124,9 @@
                 <div class="max-w-6xl mx-auto flex items-center space-x-6 py-4">
                     <ul class="flex items-center space-x-6 text-white">
                         <li>
-                            <a href="/listings" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                                <iconify-icon icon="mdi:home-city" width="20" height="20"></iconify-icon>
+                            <a href="/listings"
+                            class="flex items-center space-x-2 px-3 py-2 rounded-full transition {{ Request::is('listings*') ? 'bg-blue-800 border-2 border-white' : 'bg-blue-800 hover:bg-blue-700 border-2 border-transparent hover:border-white/50' }}">
+                                <iconify-icon icon="mdi:bed-king-outline" width="20" height="20"></iconify-icon>
                                 <span>Listings</span>
                             </a>
                         </li>
@@ -167,7 +168,7 @@
     </header>
 
     {{-- Contenido dinámico --}}
-    <main class="container mx-auto py-8">
+    <main class="flex flex-col">
         @yield('content')
     </main>
 
