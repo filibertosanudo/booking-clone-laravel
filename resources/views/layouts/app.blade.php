@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Mi Booking')</title>
+    @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('scripts')
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -12,53 +13,70 @@
 
     {{-- Header estilo Booking --}}
     <header class="bg-[#003580] text-white p-4">
-        <div id="header-bar" class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-[28px] font-bold pl-4">
-                <a href="/">Booking Clone</a>
-            </h1>
+    <div id="header-bar" class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-[28px] font-bold pl-4">
+            <a href="/">Booking Clone</a>
+        </h1>
 
-            <nav x-data="headerDropdowns()" class="flex items-center space-x-4 relative">
-                @auth
-                    <div class="relative">
-                        <button type="button"
-                            @click="toggleCurrency()"
-                            class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                            <span x-text="selectedCurrency"></span>
-                            <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
-                        </button>
-                        <div x-show="currencyOpen" @click.away="currencyOpen = false"
-                            class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
-                            <template x-for="curr in ['USD', 'MXN', 'EUR']" :key="curr">
-                                <a href="#" @click.prevent="selectCurrency(curr)"
-                                class="block px-4 py-2 hover:bg-gray-100" x-text="curr"></a>
-                            </template>
-                        </div>
-                    </div>
-
-                    <div class="relative">
-                        <button type="button"
-                            @click="toggleLanguage()"
-                            class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                            <span x-text="selectedLanguage"></span>
-                            <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
-                        </button>
-                        <div x-show="languageOpen" @click.away="languageOpen = false"
-                            class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
-                            <template x-for="lang in ['EN', 'ES', 'FR']" :key="lang">
-                                <a href="#" @click.prevent="selectLanguage(lang)"
-                                class="block px-4 py-2 hover:bg-gray-100" x-text="lang"></a>
-                            </template>
-                        </div>
-                    </div>
-
-                    <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                        <iconify-icon icon="mdi:question-mark-circle-outline" width="20" height="20"></iconify-icon>
-                    </a>
-                    <a href="/#"
+        <nav x-data="headerDropdowns()" class="flex items-center space-x-4 relative">
+            @if (Request::is('login') || Request::is('register'))
+                <div class="relative">
+                    <button type="button"
+                        @click="toggleLanguage()"
                         class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                        Registra tu propiedad
-                    </a>
-
+                        <span x-text="selectedLanguage"></span>
+                        <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
+                    </button>
+                    <div x-show="languageOpen" @click.away="languageOpen = false"
+                        class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
+                        <template x-for="lang in ['EN', 'ES', 'FR']" :key="lang">
+                            <a href="#" @click.prevent="selectLanguage(lang)"
+                            class="block px-4 py-2 hover:bg-gray-100" x-text="lang"></a>
+                        </template>
+                    </div>
+                </div>
+                <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                    <iconify-icon icon="mdi:question-mark-circle-outline" width="20" height="20"></iconify-icon>
+                </a>
+            @else
+                <div class="relative">
+                    <button type="button"
+                        @click="toggleCurrency()"
+                        class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                        <span x-text="selectedCurrency"></span>
+                        <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
+                    </button>
+                    <div x-show="currencyOpen" @click.away="currencyOpen = false"
+                        class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
+                        <template x-for="curr in ['USD', 'MXN', 'EUR']" :key="curr">
+                            <a href="#" @click.prevent="selectCurrency(curr)"
+                            class="block px-4 py-2 hover:bg-gray-100" x-text="curr"></a>
+                        </template>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button type="button"
+                        @click="toggleLanguage()"
+                        class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                        <span x-text="selectedLanguage"></span>
+                        <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
+                    </button>
+                    <div x-show="languageOpen" @click.away="languageOpen = false"
+                        class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
+                        <template x-for="lang in ['EN', 'ES', 'FR']" :key="lang">
+                            <a href="#" @click.prevent="selectLanguage(lang)"
+                            class="block px-4 py-2 hover:bg-gray-100" x-text="lang"></a>
+                        </template>
+                    </div>
+                </div>
+                <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                    <iconify-icon icon="mdi:question-mark-circle-outline" width="20" height="20"></iconify-icon>
+                </a>
+                <a href="/#"
+                    class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                    Registra tu propiedad
+                </a>
+                @auth
                     <div class="relative" x-data="{ open: false }">
                         <button
                             @click="open = !open"
@@ -87,90 +105,74 @@
                 @endauth
 
                 @guest
-                    <div class="relative">
-                        <button type="button"
-                            @click="toggleLanguage()"
-                            class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                            <span x-text="selectedLanguage"></span>
-                            <iconify-icon icon="mdi:chevron-down" width="16" height="16"></iconify-icon>
-                        </button>
-                        <div x-show="languageOpen" @click.away="languageOpen = false"
-                            class="absolute mt-2 w-32 bg-white text-black rounded-md shadow-lg z-50">
-                            <template x-for="lang in ['EN', 'ES', 'FR']" :key="lang">
-                                <a href="#" @click.prevent="selectLanguage(lang)"
-                                class="block px-4 py-2 hover:bg-gray-100" x-text="lang"></a>
-                            </template>
-                        </div>
-                    </div>
-
-                    <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                        <iconify-icon icon="mdi:question-mark-circle-outline" width="20" height="20"></iconify-icon>
+                    <a href="{{ route('register') }}"
+                        class="bg-white text-[#003580] px-4 py-2 rounded-md hover:bg-gray-200">
+                        Regístrate
                     </a>
-                    @if (!Request::is('login') && !Request::is('register'))
-                        <a href="{{ route('register') }}"
-                            class="bg-white text-[#003580] px-4 py-2 rounded-md hover:bg-gray-200">
-                            Regístrate
-                        </a>
-                        <a href="{{ route('login') }}"
-                            class="bg-white text-[#003580] px-4 py-2 rounded-md hover:bg-gray-200">
-                            Iniciar sesión
-                        </a>
-                    @endif
+                    <a href="{{ route('login') }}"
+                        class="bg-white text-[#003580] px-4 py-2 rounded-md hover:bg-gray-200">
+                        Iniciar sesión
+                    </a>
                 @endguest
-            </nav>
-        </div>
-        @auth
-            <nav>
-                <div class="max-w-6xl mx-auto flex items-center space-x-6 py-4">
-                    <ul class="flex items-center space-x-6 text-white">
-                        <li>
-                            <a href="/listings"
-                            class="flex items-center space-x-2 px-3 py-2 rounded-full transition {{ Request::is('listings*') ? 'bg-blue-800 border-2 border-white' : 'bg-blue-800 hover:bg-blue-700 border-2 border-transparent hover:border-white/50' }}">
-                                <iconify-icon icon="mdi:bed-king-outline" width="20" height="20"></iconify-icon>
-                                <span>Listings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                                <iconify-icon icon="mdi:airplane" width="20" height="20"></iconify-icon>
-                                <span>Vuelos</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                                <iconify-icon icon="mdi:bag-suitcase" width="20" height="20"></iconify-icon>
-                                <span>Vuelo + Hotel</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                                <iconify-icon icon="mdi:car" width="20" height="20"></iconify-icon>
-                                <span>Renta de autos</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                                <iconify-icon icon="mdi:ferris-wheel" width="20" height="20"></iconify-icon>
-                                <span>Atracciones</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
-                                <iconify-icon icon="mdi:airport-taxi" width="20" height="20"></iconify-icon>
-                                <span>Taxis aeropuerto</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        @endauth
+            @endif
+        </nav>
+    </div>
 
-    </header>
+    @if (!Request::is('login') && !Request::is('register'))
+        <nav>
+            <div class="max-w-6xl mx-auto flex items-center space-x-6 py-4">
+                <ul class="flex items-center space-x-6 text-white text-sm">
+                    <li>
+                        <a href="/listings"
+                        class="flex items-center space-x-2 px-3 py-2 rounded-full transition
+                            {{ (Request::is('listings*') || Request::is('/'))
+                                ? 'bg-blue-800 border-2 border-white'
+                                : 'bg-blue-800 hover:bg-blue-700 border-2 border-transparent hover:border-white/50' }}">
+                            <iconify-icon icon="mdi:bed-king-outline" width="20" height="20"></iconify-icon>
+                            <span>Alojamiento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                            <iconify-icon icon="mdi:airplane" width="20" height="20"></iconify-icon>
+                            <span>Vuelos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                            <iconify-icon icon="mdi:bag-suitcase" width="20" height="20"></iconify-icon>
+                            <span>Vuelo + Hotel</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                            <iconify-icon icon="mdi:car" width="20" height="20"></iconify-icon>
+                            <span>Alquiler de autos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                            <iconify-icon icon="mdi:ferris-wheel" width="20" height="20"></iconify-icon>
+                            <span>Atracciones</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#" class="flex items-center space-x-2 px-3 py-2 rounded-full bg-blue-800 hover:bg-blue-700 transition">
+                            <iconify-icon icon="mdi:airport-taxi" width="20" height="20"></iconify-icon>
+                            <span>Taxis aeropuerto</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    @endif
+</header>
 
     {{-- Contenido dinámico --}}
     <main class="flex flex-col">
         @yield('content')
     </main>
 
+@livewireScripts
 </body>
 </html>
