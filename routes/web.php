@@ -24,7 +24,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('reviews', ReviewController::class);
 });
 
-Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
-
 
 require __DIR__.'/auth.php';
