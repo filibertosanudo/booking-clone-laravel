@@ -24,5 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('reviews', ReviewController::class);
 });
 
+Route::get('/api/destinos', [ListingController::class, 'buscar'])->name('listings.buscar');
+
 
 require __DIR__.'/auth.php';

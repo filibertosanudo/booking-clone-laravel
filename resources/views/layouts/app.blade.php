@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Mi Booking')</title>
+    @vite('resources/css/app.css')
     @livewireStyles
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @stack('scripts')
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    @stack('scripts')
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 
@@ -174,5 +174,7 @@
     </main>
 
 @livewireScripts
+@vite('resources/js/app.js')
+@stack('footer-scripts')
 </body>
 </html>

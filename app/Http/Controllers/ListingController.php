@@ -81,4 +81,20 @@ class ListingController extends Controller
         $listing->delete();
         return redirect()->route('listings.index')->with('success', 'Listing eliminado correctamente.');
     }
+
+    public function buscar(Request $request)
+    {
+        $q = $request->get('q', '');
+        $destinos = [];
+
+        if (strlen($q) >= 2) {
+            $destinos = Listing::where('location', 'like', "%{$q}%")
+                ->select('location')
+                ->distinct()
+                ->limit(5)
+                ->pluck('location'); // devuelve solo array plano
+        }
+
+        return response()->json($destinos);
+    }
 }

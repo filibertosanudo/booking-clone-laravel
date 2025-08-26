@@ -1,31 +1,56 @@
-<div class="relative flex-1 max-w-sm">
-    <div class="flex items-center border rounded-md px-2">
-        <iconify-icon icon="mdi:bed-king-outline" width="20" height="20" class="text-gray-500 mr-2"></iconify-icon>
-        <input type="text"
-               wire:model.live.debounce.300ms="query"
-               placeholder="¿A dónde vas?"
-               class="flex-1 p-2 outline-none border-0 text-sm text-black"
-               autocomplete="off">
-    </div>
+<div x-data="autocomplete()" class="relative w-full">
+    <input
+        type="text"
+        placeholder="Buscar destino..."
+        x-model="query"
+        @input="fetchSuggestions"
+        class="w-full bg-transparent outline-none text-sm border rounded px-2 py-1 border-white"
+        @focus="open = true"
+        @click.away="open = false"
+    >
 
-    @if($mostrarSugerencias && !empty($destinos) && count($destinos) > 0)
-        <div class="absolute top-full mt-1 bg-white border rounded-md shadow-lg z-50 w-full max-h-60 overflow-y-auto">
-            @foreach($destinos as $destino)
-                <button type="button"
-                        wire:click="seleccionarDestino('{{ $destino->location }}')"
-                        class="block px-4 py-2 text-left w-full hover:bg-gray-100 text-gray-900 border-b border-gray-100 last:border-b-0">
-                    <iconify-icon icon="mdi:map-marker" width="16" height="16" class="text-gray-500 mr-2 inline"></iconify-icon>
-                    {{ $destino->location }}
-                </button>
-            @endforeach
-        </div>
-    @endif
-
-    @if($mostrarSugerencias && strlen($query) >= 2 && count($destinos) === 0)
-        <div class="absolute top-full mt-1 bg-white border rounded-md shadow-lg z-50 w-full">
-            <div class="px-4 py-3 text-gray-500 text-sm">
-                No se encontraron destinos
+    {{-- Opciones --}}
+    <div
+        class="absolute left-0 right-0 mt-1 bg-white border border-[#ffb700] rounded-md shadow-lg z-50"
+        x-show="open && filtered.length > 0"
+    >
+        <template x-for="(item, index) in filtered" :key="index">
+            <div
+                class="flex items-center px-3 py-2 text-sm text-gray-700 cursor-pointer hover:bg-[#ffb700] hover:text-black"
+                @click="selectSuggestion(item)"
+            >
+                <iconify-icon icon="mdi:location-on-outline" width="20" height="20" class="text-gray-500 mr-2"></iconify-icon>
+                <span x-text="item"></span>
             </div>
-        </div>
-    @endif
+        </template>
+    </div>
 </div>
+
+<script>
+function autocomplete() {
+    return {
+        query: '',
+        filtered: [],
+        open: false,
+
+        async fetchSuggestions() {
+            if (this.query.length < 2) {
+                this.filtered = [];
+                return;
+            }
+
+            let response = await fetch(`/api/destinos?q=${this.query}`);
+            this.filtered = await response.json();
+        },
+
+        selectSuggestion(suggestion) {
+            this.query = suggestion;
+            this.filtered = [];
+            this.open = false;
+
+            const nextInput = document.querySelector('input[name="fecha"]');
+            if (nextInput) nextInput.focus();
+        }
+    }
+}
+</script>
